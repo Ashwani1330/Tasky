@@ -87,7 +87,7 @@ fun LongTaskCardPreview() {
             TaskCard(
                 task = Task(
                     id = UUID.randomUUID(),
-                    body = "Learn about all everything in the universe and build a course teaching teh one true theory of everything.",
+                    body = "Learn about all everything in the universe and build a course teaching the one true theory of everything.",
                     completed = false
                 ), toggleCompleted = {})
         }
