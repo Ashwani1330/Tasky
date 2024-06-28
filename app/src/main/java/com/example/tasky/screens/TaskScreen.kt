@@ -16,7 +16,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,8 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tasky.components.AddTaskInput
+import com.example.tasky.components.TaskAppTopBar
 import com.example.tasky.components.TaskCard
-import com.example.tasky.components.TaskTopAppBar
+import com.example.tasky.components.TaskItem
 import com.example.tasky.ui.theme.TaskyTheme
 import com.example.tasky.ui.theme.backgroundColor
 import com.example.tasky.utils.deleteAllTasksDialog
@@ -44,12 +44,12 @@ fun TaskScreen(viewModel: TaskViewModel) {
     }.deleteAllTasksDialog(viewModel = viewModel)
 
     val rotate by animateFloatAsState(
-        if (isInputVisible.value) 45f else 0f
+        if (isInputVisible.value) 45f else 0f, label = ""
     )
 
     Scaffold(
         topBar = {
-            TaskTopAppBar(deleteAllTasksDialog, isInputVisible)
+            TaskAppTopBar(deleteAllTasksDialog)
         },
         floatingActionButton = {
             IconButton(
@@ -84,6 +84,7 @@ fun TaskScreen(viewModel: TaskViewModel) {
                         it.id
                     }) { task ->
                         TaskCard(task, viewModel::toggleTaskCompleted)
+                        TaskItem(viewModel = viewModel, task = task)
                     }
                 }
             )

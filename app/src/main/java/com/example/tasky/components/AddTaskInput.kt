@@ -1,6 +1,7 @@
 package com.example.tasky.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,6 +20,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.tasky.ui.theme.MEDIUM_PADDING
 import com.example.tasky.ui.theme.SMALL_PADDING
 import com.example.tasky.view_models.TaskViewModel
@@ -54,32 +56,43 @@ fun AddTaskInput(
     var error by remember { mutableStateOf("") }
     var isErrorVisible by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(MEDIUM_PADDING,SMALL_PADDING)) {
-        OutlinedTextField(
-            value = body,
-            onValueChange = {
-            isErrorVisible = false
-            body = it
-        },
-            label = { Text(text = "Enter task") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    val (hasError, errorMessage) = viewModel.addTask(body)
-                    error = errorMessage
-                    isErrorVisible = hasError
+    if (isInputVisible.value) {
+        Column(modifier = Modifier.padding(MEDIUM_PADDING,SMALL_PADDING)) {
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = body,
+                onValueChange = {
+                    isErrorVisible = false
+                    body = it
+                },
+                label = { Text(text = "Enter task") },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        val (hasError, errorMessage) = viewModel.addTask(body)
+                        error = errorMessage
+                        isErrorVisible = hasError
 
-                    if (!hasError) {
-                        body = ""
-                        isInputVisible.value = false
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
-                    }
-                }),
-            isError = isErrorVisible,
-        )
-        if (isErrorVisible) {
-            Text(text = error, color = MaterialTheme.colorScheme.error)
+                        if (!hasError) {
+                            body = ""
+                            isInputVisible.value = false
+                            keyboardController?.hide()
+                            focusManager.clearFocus()
+                        }
+                    }),
+                isError = isErrorVisible,
+            )
+            if (isErrorVisible) {
+                Text(text = error, color = MaterialTheme.colorScheme.error)
+            }
         }
     }
+
+}
+
+
+@Preview
+@Composable
+fun AddTaskInputPreview() {
+    AddTaskInput(viewModel = TaskViewModel(), remember { mutableStateOf(true) } )
 }

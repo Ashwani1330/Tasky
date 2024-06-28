@@ -26,7 +26,7 @@ class TaskViewModel: ViewModel() {
         }
 
         // duplicate task check
-        if (taskList.any() {
+        if (taskList.any {
             it.body == body
         }) {
             return true to "That task already exists"
