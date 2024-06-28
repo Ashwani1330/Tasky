@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -41,11 +42,22 @@ fun AddTaskInput(
         FocusRequester()
     }
 
+/*
     LaunchedEffect(Unit) {
         if (isInputVisible.value) {
             focusRequester.requestFocus()
         }
     }
+*/
+    LaunchedEffect(isInputVisible.value) {
+        if (isInputVisible.value) {
+            focusRequester.requestFocus()
+            keyboardController?.show() // Show the keyboard
+        } else {
+            keyboardController?.hide() // Hide the keyboard
+        }
+    }
+
 
     // state of our new task body
     var body by remember {
@@ -59,7 +71,8 @@ fun AddTaskInput(
     if (isInputVisible.value) {
         Column(modifier = Modifier.padding(MEDIUM_PADDING,SMALL_PADDING)) {
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .focusRequester(focusRequester),
                 value = body,
                 onValueChange = {
                     isErrorVisible = false
