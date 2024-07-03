@@ -3,8 +3,8 @@ Tasky
 
 A basic Todo-List app made using Jetpack-compose (MVVM Architecture)
 
->[!TIP]
-> [Notion Docs](https://immediate-amusement-e5a.notion.site/Tasky-736b4d3672f94bdfb02ab59e46bb670d?pvs=4)
+> [!TIP]
+> [Notion Docs](https://immediate-amusement-e5a.notion.site/Tasky-886056ae786f45d19c88f052be45656a?pvs=4)
 
 ### Screenshots
 ---
